@@ -1,0 +1,103 @@
+.unselectable {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+.left {
+    float: left;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.right {
+    float: right;
+    width: 20%;
+}
+
+.score-container {
+    margin-bottom: 25px;
+    background-color: rgb(238, 238, 238, 0.6);
+    width: 50%;
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.cat-img-div {
+    width: 256px;
+    cursor: pointer;
+}
+
+.cat-img {
+    max-width: 100%;
+    position: relative;
+    transition: all .2s ease-in-out;
+}
+
+.cat-img:hover {
+    transform: scale(1.10);
+}
+
+.cat-img:active {
+    transform: scale(0.99);
+}
+
+.footer {
+    margin-top: 20%;
+    align-self: flex-start;
+    justify-self: flex-start;
+}
+
+.table {
+    display: flex;
+    background-color: #b5b5b5;
+    transition: all .2s ease-in-out;
+    border-radius: 10px;
+    width: 100%;
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+.table:hover {
+    background-color: #c7c7c7;
+}
+
+.image {
+    width: 25%;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    padding: 5px;
+}
+
+.image img {
+    max-width: 90%;
+}
+
+.item-cost {
+    width: 50%;
+}
+
+.amount {
+    width: 25%;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+}
+
+.amount p {
+    font-size: 24px;
+}
+
+.item-cost p {
+    margin: 0px;
+}
+
+.item-cost p:first-of-type {
+    font-size: 24px;
+}

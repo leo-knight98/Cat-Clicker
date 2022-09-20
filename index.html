@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat clicker!</title>
+    <link href="style.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="left">
+        <div class="score-container unselectable">
+            <span id="score">0</span> cats<br>
+            <span id="cats-per-second">0</span> cats are coming each second!
+        </div>
+        <div class="cat-img-div" id="cat-img-div">
+            <img src="img/cat.jpg" alt="cat-img" class="cat-img" id="cat-img" />
+            <button id="save">Save game</button>
+        </div>
+        <div class="footer">
+            <p>Cat clicker!</p>
+        </div>
+    </div>
+    <div class="right unselectable">
+        <div class="table" id="buy_cursor">
+            <div class="image">
+                <img src="img/cursor.png" />
+            </div>
+            <div class="item-cost">
+                <p>Cursor</p>
+                <p><span id="cursor-cost">15</span> cats</p>
+            </div>
+            <div id="amount">
+                <p id="cursors">0</p>
+            </div>
+        </div>
+        <div class="table" id="buy_scratcher">
+            <div class="image">
+                <img src="img/scratcher.png" />
+            </div>
+            <div class="item-cost">
+                <p>Scratcher</p>
+                <p><span id="scratcher-cost">100</span> cats</p>
+            </div>
+            <div id="amount">
+                <p id="scratchers">0</p>
+            </div>
+        </div>
+        <div class="table" id="buy_litter_box">
+            <div class="image">
+                <img src="img/litter.png" />
+            </div>
+            <div class="item-cost">
+                <p>Litter box</p>
+                <p><span id="box-cost">520</span> cats</p>
+            </div>
+            <div id="amount">
+                <p id="boxes">0</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
