@@ -1,107 +1,131 @@
-window.onload = function() {
-    const SCORE_ELEMENT = document.getElementById('score');
-    const PER_SECOND = document.getElementById('cats-per-second');
-    const CAT = document.getElementById('cat-img');
-    const BUY_CURSOR = document.getElementById('buy_cursor');
-    const CURSOR_COST = document.getElementById('cursor-cost');
-    const CURSOR_AMOUNT = document.getElementById('cursors');
-    const BUY_SCRATCHER = document.getElementById('buy_scratcher');
-    const SCRATCHER_COST = document.getElementById('scratcher-cost');
-    const SCRATCHER_AMOUNT = document.getElementById('scratchers');
-    const BUY_LITTER_BOX = document.getElementById('buy_litter_box');
-    const BOX_COST = document.getElementById('box-cost');
-    const BOX_AMOUNT = document.getElementById('boxes');
-    const SAVE = document.getElementById('save');
+let game = {
+    score: 0,
+    totalScore: 0,
+    totalClicks: 0,
+    clickValue: 1,
+    version: 0.000,
 
-    let score = 0;
-    let scorePerSecond = 0;
-    let name = "Timmy";
-    let amount = 1;
-    let cursorCost = 15;
-    let cursorAmount = 0;
-    let scratcherCost = 100;
-    let scratcherAmount = 0;
-    let boxCost = 520;
-    let boxAmount = 0;
+    addToScore: function(amount) {
+        this.score += amount;
+        this.totalScore += amount;
+        display.updateScore();
+    },
 
-    SCORE_ELEMENT.innerHTML = score;
-    PER_SECOND.innerHTML = scorePerSecond;
-    
-    CAT.addEventListener('click', function() {
-        score = score + amount;
-        SCORE_ELEMENT.innerHTML = score;
-    });
-
-    BUY_CURSOR.addEventListener('click', function() {
-        if(score >= cursorCost) {
-            score = score - cursorCost;
-            SCORE_ELEMENT.innerHTML = score;
-            cursorCost = Math.round(cursorCost * 1.15);
-            cursorAmount = cursorAmount + 1;
-
-            CURSOR_COST.innerHTML = cursorCost;
-            CURSOR_AMOUNT.innerHTML = cursorAmount;
-            updateScorePerSecond()
+    getScorePerSecond: function() {
+        let scorePerSecond = 0;
+        for(let i = 0; i < building.name.length; i++) {
+            scorePerSecond += building.income[i] * building.count[i]; 
         }
-    });
+        return scorePerSecond;
+    },
+};
 
-    BUY_SCRATCHER.addEventListener('click', function() {
-        if(score >= scratcherCost) {
-            score = score - scratcherCost;
-            SCORE_ELEMENT.innerHTML = score;
-            scratcherCost = Math.round(scratcherCost * 1.15);
-            scratcherAmount = scratcherAmount + 1;
+let building = {
+    name: ["Cursor", "Scratcher", "Litter_box"],
+    image: ["img/cursor.png", "img/scratcher.png", "img/litter.png"],
+    count:[0, 0, 0],
+    income:[1, 10, 25],
+    cost:[15, 100, 520],
 
-            SCRATCHER_COST.innerHTML = scratcherCost;
-            SCRATCHER_AMOUNT.innerHTML = scratcherAmount;
-            updateScorePerSecond()
+    purchase: function(index) {
+        if(game.score >= this.cost[index]) {
+            game.score -= this.cost[index];
+            this.count[index]++;
+            this.cost[index] = Math.ceil(this.cost[index] * 1.15);
+            display.updateScore();
+            display.updateShop();
         }
-    });
-
-    BUY_LITTER_BOX.addEventListener('click', function() {
-        if(score >= boxCost) {
-            score = score - boxCost;
-            SCORE_ELEMENT.innerHTML = score;
-            boxCost = Math.round(boxCost * 1.15);
-            boxAmount = boxAmount + 1;
-
-            BOX_COST.innerHTML = boxCost;
-            BOX_AMOUNT.innerHTML = boxAmount;
-            updateScorePerSecond()
-        }
-    });
-
-    function updateScorePerSecond() {
-        scorePerSecond = cursorAmount + (scratcherAmount * 5) + (boxAmount * 25);
-        PER_SECOND.innerHTML = scorePerSecond;
-    }
-
-    setInterval(function() {
-        score = score + (amount * cursorAmount);
-        score = score + ((amount * 5) * scratcherAmount) + ((amount * 25) * boxAmount); 
-        SCORE_ELEMENT.innerHTML = score;
-        document.title = score + " cats - Cat clicker!"
-    }, 1000);
-
-    SAVE.addEventListener('click', saveGame());
-
-    function saveGame() {
-        let gameSave = {
-            score: score,
-            amount: amount,
-            cursorCost: cursorCost,
-            cursorAmount: cursorAmount,
-            scratcherAmount: scratcherAmount,
-            scratcherCost: scratcherCost,
-            boxAmount: boxAmount,
-            boxCost: boxCost
-        };
-
-        localStorage.setItem('gameSave', JSON.stringify(gameSave));
-    }
-
-    setInterval(function() {
-        saveGame()
-    }, 30000);
+    },
 }
 
+let display = {
+    updateScore: function() {
+        document.getElementById('score').innerHTML = game.score;
+        document.getElementById('cats-per-second').innerHTML = game.getScorePerSecond();
+        document.title = game.score + ' cats - Cat clicker!'
+    },
+
+    updateShop: function() {
+        document.getElementById('shopContainer').innerHTML = ""
+        for(let i = 0; i < building.name.length; i++) {
+            
+            document.getElementById('shopContainer').innerHTML += "<div class='table' onclick='building.purchase("+i+")'><div class='image'><img src="+ building.image[i] + " /></div><div class='item-cost'><p>" + building.name[i]+ "</p><p><span>"+building.cost[i]+"</span> cats</p></div><div id='amount'><p>"+building.count[i]+"</p></div></div>";
+        }
+    },
+};
+
+function saveGame() {
+    let gameSave = {
+        score: game.score,
+        totalScore: 0,
+        totalClicks: game.totalClicks,
+        clickValue: game.clickValue,
+        version: game.version,
+        buildingCount: building.count,
+        buildingIncome: building.income,
+        buildingCost: building.cost
+    };
+    window.localStorage.setItem("gameSave", JSON.stringify(gameSave));
+}
+
+function loadGame() { 
+    if(window.localStorage.getItem("gameSave") !== null) {
+        let gameSave = JSON.parse(window.localStorage.getItem("gameSave"));
+        if(typeof gameSave.score !== undefined) game.score = gameSave.score;
+        if(typeof gameSave.totalScore !== undefined) game.amount = gameSave.totalScore;
+        if(typeof gameSave.totalClicks !== undefined) game.totalClicks = gameSave.totalClicks;
+        if(typeof gameSave.clickValue !== undefined) game.clickValue = gameSave.clickValue;
+        if(typeof gameSave.version !== undefined) game.version = gameSave.version;
+        if(typeof gameSave.buildingCount !== undefined) {
+            for(let i = 0; i < gameSave.buildingCount.length; i++) {
+                building.count[i] = gameSave.buildingCount[i];
+            }
+        }
+        if(typeof gameSave.buildingIncome !== undefined) {
+            for(let i = 0; i < gameSave.buildingIncome.length; i++) {
+                building.income[i] = gameSave.buildingIncome[i];
+            }
+        }
+        if(typeof gameSave.buildingCost !== undefined) {
+            for(let i = 0; i < gameSave.buildingCost.length; i++) {
+                building.cost[i] = gameSave.buildingCost[i];
+            }
+        }
+    }
+}
+
+function resetGame() {
+    if(confirm("Are you sure you want to reset your game")) {
+        let gameSave = {
+            score: 0,
+            totalScore: 0,
+            totalClicks: 0,
+            clickValue: 1,
+            version: 0.000,
+            buildingCount: [0, 0, 0],
+            buildingIncome: [1, 10, 25],
+            buildingCost: [15, 100, 520]
+        };
+        window.localStorage.setItem("gameSave", JSON.stringify(gameSave));
+        location.reload();
+    }
+}
+
+document.addEventListener('keydown', function(event){
+    if(event.ctrlKey && event.key == 's') {
+        event.preventDefault();
+        saveGame();
+    }
+}, false);
+
+window.onload = function() {
+    loadGame();
+    display.updateScore();
+    display.updateShop();
+}
+
+setInterval(function() {
+    game.addToScore(game.getScorePerSecond());
+    game.totalScore += game.getScorePerSecond();
+    display.updateScore(); 
+}, 1000)

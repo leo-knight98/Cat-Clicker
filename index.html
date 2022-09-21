@@ -14,52 +14,17 @@
             <span id="cats-per-second">0</span> cats are coming each second!
         </div>
         <div class="cat-img-div" id="cat-img-div">
-            <img src="img/cat.jpg" alt="cat-img" class="cat-img" id="cat-img" />
-            <button id="save">Save game</button>
+            <img src="img/cat.jpg" alt="cat-img" class="cat-img" onclick="game.addToScore(game.clickValue)" />
         </div>
         <div class="footer">
             <p>Cat clicker!</p>
+            <button id="reset" onclick="resetGame()">Reset game</button>
         </div>
     </div>
-    <div class="right unselectable">
-        <div class="table" id="buy_cursor">
-            <div class="image">
-                <img src="img/cursor.png" />
-            </div>
-            <div class="item-cost">
-                <p>Cursor</p>
-                <p><span id="cursor-cost">15</span> cats</p>
-            </div>
-            <div id="amount">
-                <p id="cursors">0</p>
-            </div>
-        </div>
-        <div class="table" id="buy_scratcher">
-            <div class="image">
-                <img src="img/scratcher.png" />
-            </div>
-            <div class="item-cost">
-                <p>Scratcher</p>
-                <p><span id="scratcher-cost">100</span> cats</p>
-            </div>
-            <div id="amount">
-                <p id="scratchers">0</p>
-            </div>
-        </div>
-        <div class="table" id="buy_litter_box">
-            <div class="image">
-                <img src="img/litter.png" />
-            </div>
-            <div class="item-cost">
-                <p>Litter box</p>
-                <p><span id="box-cost">520</span> cats</p>
-            </div>
-            <div id="amount">
-                <p id="boxes">0</p>
-            </div>
-        </div>
+    <div class="right unselectable" id="shopContainer">
+        
     </div>
 
-    <script src="main.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
