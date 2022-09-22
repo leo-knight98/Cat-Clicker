@@ -14,15 +14,17 @@
             <span id="cats-per-second">0</span> cats are coming each second!
         </div>
         <div class="cat-img-div" id="cat-img-div">
-            <img src="img/cat.jpg" alt="cat-img" class="cat-img" onclick="game.addToScore(game.clickValue)" />
+            <img src="img/cat.jpg" alt="cat-img" class="cat-img" id="clicker" />
         </div>
         <div class="footer">
             <p>Cat clicker!</p>
             <button id="reset" onclick="resetGame()">Reset game</button>
         </div>
     </div>
-    <div class="right unselectable" id="shopContainer">
-        
+    <div class="right unselectable">
+        <div id="upgradeContainer"></div>
+        <div id="shopContainer"></div>
+        <div id="achievementContainer"></div>
     </div>
 
     <script src="main.js"></script>

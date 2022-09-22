@@ -101,3 +101,13 @@
 .item-cost p:first-of-type {
     font-size: 24px;
 }
+
+#upgradeContainer img {
+    height: 64px;
+    width: 64px;
+}
+
+#achievementContainer img {
+    height: 64px;
+    width: 64px;
+}
